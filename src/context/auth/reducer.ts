@@ -1,15 +1,13 @@
 import {Action, ActionKind} from './actions'
 
 export interface AuthState {
-  userName: string
-  token: string | null
+  userId: string | null
   loading: boolean
   errorMessage: string | null
 }
 
 export const initialState: AuthState = {
-  userName: '',
-  token: null,
+  userId: null,
   loading: false,
   errorMessage: null,
 }
@@ -27,17 +25,14 @@ export const authReducer = (
     case ActionKind.LOGIN_SUCCESS:
       return {
         ...initialState,
-        userName: action.userName,
-        token: action.token,
+        userId: action.userId,
         loading: false,
       }
     case ActionKind.LOGOUT:
       return {
         ...initialState,
-        userName: '',
-        token: null,
+        userId: null,
       }
-
     case ActionKind.LOGIN_ERROR:
       return {
         ...initialState,

@@ -2,21 +2,25 @@ import * as React from 'react'
 import {StyleSheet, Text, View} from 'react-native'
 import {useAuthContext} from '../../../context/auth/context'
 import {Button} from 'react-native-paper'
-import {ActionKind} from '../../../context/auth/actions'
 
 export default () => {
-  const {dispatch} = useAuthContext()
+  const {service} = useAuthContext()
   return (
     <View>
       <Text style={styles.title}>Login</Text>
       <Button
-        onPress={() =>
-          dispatch({
-            type: ActionKind.LOGIN_SUCCESS,
-            userName: 'lala',
-            token: 'lalaToken',
+        onPress={() => {
+          service.register('test@test.com', 'user1234', {
+            name: 'lala',
+            surname: 'lolo',
           })
-        }>
+        }}>
+        Register
+      </Button>
+      <Button
+        onPress={() => {
+          service.login('test@test.com', 'user1234')
+        }}>
         Log in
       </Button>
     </View>

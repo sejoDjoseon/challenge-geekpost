@@ -11,8 +11,7 @@ export interface RequestLoginAction {
 
 export interface LoginSuccessAction {
   type: ActionKind.LOGIN_SUCCESS
-  userName: string
-  token: string
+  userId: string
 }
 
 export interface LogoutAction {

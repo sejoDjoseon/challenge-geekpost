@@ -13,7 +13,7 @@ function AppWithContext() {
   return (
     <NavigationContainer theme={Theme}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {!state.token ? (
+        {!state.userId ? (
           <Stack.Screen name="NotLogged" component={NotLogged} />
         ) : (
           <Stack.Screen name="Main" component={Main} />
