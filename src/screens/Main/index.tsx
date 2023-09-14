@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/native-stack'
 import Feed from './Feed/Feed'
 import CreatePost from './CreatePost'
+import {MainContextProvider} from '../../context/main/context'
 
 export type MainStackParamList = {
   Feed: undefined
@@ -20,10 +21,12 @@ export type FeedProps = NativeStackScreenProps<MainStackParamList, 'Feed'>
 const MainStack = createNativeStackNavigator<MainStackParamList>()
 
 export default () => (
-  <MainStack.Navigator>
-    <MainStack.Screen name="Feed" component={Feed} />
-    <MainStack.Group screenOptions={{presentation: 'modal'}}>
-      <MainStack.Screen name="CreatePost" component={CreatePost} />
-    </MainStack.Group>
-  </MainStack.Navigator>
+  <MainContextProvider>
+    <MainStack.Navigator>
+      <MainStack.Screen name="Feed" component={Feed} />
+      <MainStack.Group screenOptions={{presentation: 'modal'}}>
+        <MainStack.Screen name="CreatePost" component={CreatePost} />
+      </MainStack.Group>
+    </MainStack.Navigator>
+  </MainContextProvider>
 )

@@ -51,5 +51,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App requires this permission to create a publication choosing picture from gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App requires this permission to create a publication taking a photo with the camera</string>
 </dict>
 </plist>

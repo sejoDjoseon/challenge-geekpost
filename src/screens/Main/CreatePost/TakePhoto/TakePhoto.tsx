@@ -6,6 +6,7 @@ import {WriteDescriptionProps} from '..'
 
 export default () => {
   const navigation = useNavigation<WriteDescriptionProps['navigation']>()
+
   return (
     <View>
       <Text style={styles.title}>TakePhoto</Text>
