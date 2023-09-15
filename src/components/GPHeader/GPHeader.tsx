@@ -7,7 +7,6 @@ import {Button, Text} from 'react-native-paper'
 
 export default ({children}: PropsWithChildren) => {
   const insets = useSafeAreaInsets()
-  console.log(insets)
   return (
     <View
       style={{

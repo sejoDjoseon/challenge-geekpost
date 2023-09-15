@@ -34,7 +34,6 @@ export default ({navigation, children}: GPWithCameraPermissionProps) => {
     new Promise<void>((resolve, reject) => {
       Camera.getCameraPermissionStatus()
         .then(result => {
-          console.log(result)
           if (
             result === 'not-determined' ||
             (result === 'denied' && Platform.OS === 'android')
@@ -53,7 +52,7 @@ export default ({navigation, children}: GPWithCameraPermissionProps) => {
         setCanRender(true)
       })
       .catch(err => {
-        console.log(err)
+        console.warn(err)
         const linkToSettings: AlertButton = {
           text: 'Settings',
           onPress: () =>

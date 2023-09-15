@@ -40,7 +40,6 @@ const TakePhoteScreen = () => {
       selectionLimit: 1,
     })
       .then(res => {
-        console.log(res)
         if (res.didCancel) return
         const assets = res.assets
         if (!assets) {
