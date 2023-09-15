@@ -1,13 +1,9 @@
 import * as React from 'react'
-import {Pressable, PressableProps} from 'react-native'
-import Svg, {Path, SvgProps} from 'react-native-svg'
-import {useAppTheme} from '../../theme/appTheme'
+import {Pressable} from 'react-native'
+import Svg, {Path} from 'react-native-svg'
+import {PressableIconProps} from '../../utils/props'
 
-interface IGPCameraButton extends PressableProps {
-  svgProps?: SvgProps
-}
-
-export default (props: IGPCameraButton) => {
+export default (props: PressableIconProps) => {
   const {svgProps, ...pressableProps} = props
   return (
     <Pressable {...pressableProps}>
