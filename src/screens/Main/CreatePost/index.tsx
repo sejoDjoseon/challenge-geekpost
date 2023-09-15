@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/native-stack'
 import TakePhoto from './TakePhoto/TakePhoto'
 import WriteDescription from './WriteDescription/WriteDescription'
+import {CreatePostContextProvider} from '../../../context/createPost/context'
 
 export type CreatePostParamList = {
   TakePhoto: undefined
@@ -19,11 +20,13 @@ export type WriteDescriptionProps = NativeStackScreenProps<
 const CreatePostStack = createNativeStackNavigator<CreatePostParamList>()
 
 export default () => (
-  <CreatePostStack.Navigator screenOptions={{headerShown: false}}>
-    <CreatePostStack.Screen name="TakePhoto" component={TakePhoto} />
-    <CreatePostStack.Screen
-      name="WriteDescription"
-      component={WriteDescription}
-    />
-  </CreatePostStack.Navigator>
+  <CreatePostContextProvider>
+    <CreatePostStack.Navigator screenOptions={{headerShown: false}}>
+      <CreatePostStack.Screen name="TakePhoto" component={TakePhoto} />
+      <CreatePostStack.Screen
+        name="WriteDescription"
+        component={WriteDescription}
+      />
+    </CreatePostStack.Navigator>
+  </CreatePostContextProvider>
 )

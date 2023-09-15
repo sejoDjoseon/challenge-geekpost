@@ -5,7 +5,7 @@ import {
   useNavigation,
 } from '@react-navigation/native'
 import {StyleSheet, View} from 'react-native'
-import {Button, IconButton, Text} from 'react-native-paper'
+import {Button, Text} from 'react-native-paper'
 import {WriteDescriptionProps} from '..'
 import {launchImageLibrary} from 'react-native-image-picker'
 import {useRef} from 'react'
@@ -17,8 +17,8 @@ import {useIsForeground} from '../../../../hooks/useIsForeground'
 import GPFormContainer from '../../../../components/GPFormContainer/GPFormContainer'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import GPCameraButton from '../../../../components/GPCameraButton/GPCameraButton'
-import {useAppTheme} from '../../../../theme/appTheme'
 import GPImagesLibraryIconButton from '../../../../components/GPImagesLibraryIconButton/GPImagesLibraryIconButton'
+import {useCreatePostContext} from '../../../../context/createPost/context'
 
 const TakePhoteScreen = () => {
   const navigation = useNavigation<WriteDescriptionProps['navigation']>()
@@ -26,22 +26,36 @@ const TakePhoteScreen = () => {
   const isAppForeground = useIsForeground()
   const isFocused = useIsFocused()
   const devices = useCameraDevices()
+  const createPostCtx = useCreatePostContext()
 
   const insets = useSafeAreaInsets()
 
   const camera = useRef<Camera>(null)
 
   const openLibrary = () => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-      },
-      image => {
-        console.log(image)
-        if (image.didCancel) return
+    launchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 1,
+    })
+      .then(res => {
+        console.log(res)
+        if (res.didCancel) return
+        const assets = res.assets
+        if (!assets) {
+          console.warn('fail geting asset')
+          return
+        }
+        const uri = assets[0].uri
+        if (!uri) {
+          console.warn('fail obtaineing uri from asset')
+          return
+        }
+        createPostCtx.setImagePath(uri)
         navigation.navigate('WriteDescription')
-      },
-    )
+      })
+      .catch(err => {
+        console.warn(err)
+      })
   }
 
   const takePhoto = () => {
@@ -51,7 +65,7 @@ const TakePhoteScreen = () => {
         qualityPrioritization: 'balanced',
       })
       .then(picture => {
-        console.log(picture)
+        createPostCtx.setImagePath(`file://${picture.path}`)
         navigation.navigate('WriteDescription')
       })
       .catch(err => {
@@ -74,7 +88,9 @@ const TakePhoteScreen = () => {
             device={devices.back}
             photo={true}
             isActive={isAppForeground && isFocused}
-            style={{height: '100%'}}></Camera>
+            style={{height: '100%'}}
+            orientation={'portrait'}
+          />
           <View
             style={{
               flexDirection: 'row',
