@@ -1,29 +1,54 @@
 import {useNavigation} from '@react-navigation/native'
 import * as React from 'react'
-import {Image, StyleSheet, Text, View} from 'react-native'
-import {Button} from 'react-native-paper'
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import {FeedProps} from '../..'
 import {useCreatePostContext} from '../../../../context/createPost/context'
+import GPFormContainer from '../../../../components/GPFormContainer/GPFormContainer'
+import {useRef} from 'react'
+import {useSafeAreaInsets} from 'react-native-safe-area-context'
 
 export default () => {
   const navigation = useNavigation<FeedProps['navigation']>()
   const {imagePath} = useCreatePostContext()
-  console.log(imagePath)
+  const textInput = useRef<TextInput>(null)
+  const {bottom: bottomInset} = useSafeAreaInsets()
 
   return (
-    <View>
-      <Text style={styles.title}>Publish</Text>
-      <Image
-        source={{uri: imagePath}}
-        style={{height: 300, width: 'auto', resizeMode: 'center'}}
-      />
-      <Button
-        onPress={() => {
-          navigation.navigate('Feed')
+    <GPFormContainer style={{paddingBottom: bottomInset}}>
+      <View
+        style={{
+          minHeight: 150,
+          flexDirection: 'row',
+          borderBottomColor: '#F0F0F4',
+          borderBottomWidth: 1,
         }}>
-        Next
-      </Button>
-    </View>
+        <Image
+          source={{uri: imagePath}}
+          style={{flex: 3, resizeMode: 'center', margin: 15}}
+        />
+        <TouchableWithoutFeedback onPress={() => textInput.current?.focus()}>
+          <View
+            style={{
+              flex: 7,
+              marginVertical: 15,
+              marginRight: 20,
+            }}>
+            <TextInput
+              ref={textInput}
+              multiline={true}
+              maxLength={1000}
+              placeholder="Escribe aqui tu descripcion..."
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    </GPFormContainer>
   )
 }
 

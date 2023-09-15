@@ -1,11 +1,21 @@
 import React, {PropsWithChildren, useState} from 'react'
 import GPSafeArea from '../GPSafeArea/GPSafeArea'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
-import {Dimensions, Keyboard, TouchableWithoutFeedback} from 'react-native'
+import {
+  Dimensions,
+  Keyboard,
+  Platform,
+  TouchableWithoutFeedback,
+  ViewStyle,
+} from 'react-native'
 
 const {height} = Dimensions.get('window')
 
-export default ({children}: PropsWithChildren) => {
+export interface GPFormContainerProps {
+  style?: ViewStyle
+}
+
+export default ({children, style}: PropsWithChildren<GPFormContainerProps>) => {
   const [scrollEnabled, setScrollEnabled] = useState(false)
 
   const onContentSizeChange = (
@@ -16,14 +26,17 @@ export default ({children}: PropsWithChildren) => {
   }
 
   return (
-    <GPSafeArea>
-      <KeyboardAwareScrollView
-        scrollEnabled={scrollEnabled}
-        onContentSizeChange={onContentSizeChange}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          {children}
-        </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView>
-    </GPSafeArea>
+    <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      scrollEnabled={scrollEnabled}
+      extraScrollHeight={Platform.OS === 'android' ? 200 : 0}
+      onContentSizeChange={onContentSizeChange}
+      style={style}>
+      <TouchableWithoutFeedback
+        style={{paddingBottom: scrollEnabled ? 500 : 0}}
+        onPress={() => Keyboard.dismiss()}>
+        {children}
+      </TouchableWithoutFeedback>
+    </KeyboardAwareScrollView>
   )
 }

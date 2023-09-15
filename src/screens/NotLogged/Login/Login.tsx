@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native'
 import {RegisterProps} from '..'
 import GPFormContainer from '../../../components/GPFormContainer/GPFormContainer'
 import {validateEmail} from '../../../utils/validators'
+import GPSafeArea from '../../../components/GPSafeArea/GPSafeArea'
 
 export default () => {
   const {service: authService, state: authState} = useAuthContext()
@@ -38,60 +39,62 @@ export default () => {
   }
 
   return (
-    <GPFormContainer>
-      <View style={{paddingHorizontal: 20}}>
-        <View style={{alignItems: 'center', paddingTop: 60}}>
-          <Text style={styles.title}>Login</Text>
-        </View>
-
-        <View style={{paddingTop: 20, paddingBottom: 20}}>
-          <View>
-            <Text>Email</Text>
-            <TextInput
-              mode="outlined"
-              value={form.email}
-              error={emailError}
-              onChangeText={email => {
-                setForm({...form, email})
-              }}
-            />
-            <HelperText type="error" visible={emailError}>
-              El email no parece valido
-            </HelperText>
+    <GPSafeArea>
+      <GPFormContainer>
+        <View style={{paddingHorizontal: 20}}>
+          <View style={{alignItems: 'center', paddingTop: 60}}>
+            <Text style={styles.title}>Login</Text>
           </View>
 
-          <View>
-            <Text>Contrasena</Text>
-            <TextInput
-              mode="outlined"
-              secureTextEntry={true}
-              value={form.password}
-              onChangeText={password => {
-                setForm({...form, password})
-              }}
-            />
+          <View style={{paddingTop: 20, paddingBottom: 20}}>
+            <View>
+              <Text>Email</Text>
+              <TextInput
+                mode="outlined"
+                value={form.email}
+                error={emailError}
+                onChangeText={email => {
+                  setForm({...form, email})
+                }}
+              />
+              <HelperText type="error" visible={emailError}>
+                El email no parece valido
+              </HelperText>
+            </View>
+
+            <View>
+              <Text>Contrasena</Text>
+              <TextInput
+                mode="outlined"
+                secureTextEntry={true}
+                value={form.password}
+                onChangeText={password => {
+                  setForm({...form, password})
+                }}
+              />
+            </View>
+          </View>
+
+          <View style={{paddingVertical: 20}}>
+            <Button
+              mode="contained"
+              disabled={!formValid}
+              loading={authState.loading}
+              onPress={() => {
+                checkAndLogin()
+              }}>
+              Iniciar sesion
+            </Button>
+          </View>
+
+          <View style={{paddingVertical: 10}}>
+            <Button onPress={() => navigation.navigate('Register')}>
+              Aun no tienes una cuenta? Crear cuenta
+            </Button>
           </View>
         </View>
-
-        <View style={{paddingVertical: 20}}>
-          <Button
-            mode="contained"
-            disabled={!formValid}
-            loading={authState.loading}
-            onPress={() => {
-              checkAndLogin()
-            }}>
-            Iniciar sesion
-          </Button>
-        </View>
-
-        <View style={{paddingVertical: 10}}>
-          <Button onPress={() => navigation.navigate('Register')}>
-            Aun no tienes una cuenta? Crear cuenta
-          </Button>
-        </View>
-      </View>
-    </GPFormContainer>
+      </GPFormContainer>
+    </GPSafeArea>
   )
 }
 
