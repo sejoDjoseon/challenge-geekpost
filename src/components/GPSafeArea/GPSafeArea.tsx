@@ -2,7 +2,7 @@ import React, {PropsWithChildren} from 'react'
 import {View} from 'react-native'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 
-export default ({children}: PropsWithChildren) => {
+export default ({children}: PropsWithChildren<any>) => {
   const insets = useSafeAreaInsets()
   return (
     <View
