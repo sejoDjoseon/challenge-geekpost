@@ -10,7 +10,7 @@ import {Alert, AlertButton, Linking, Platform} from 'react-native'
 
 export interface ICameraDevicesContext {
   hasCameraPermission: boolean
-  devices: CameraDevices
+  checked: boolean
 }
 
 const CameraPermissionContext = createContext<ICameraDevicesContext>(
@@ -29,7 +29,7 @@ interface GPWithCameraPermissionProps {
 export default ({navigation, children}: GPWithCameraPermissionProps) => {
   const [canRender, setCanRender] = useState(false)
   const [hasPermission, setHasPermission] = useState(false)
-  const devices = useCameraDevices()
+
   useEffect(() => {
     new Promise<void>((resolve, reject) => {
       Camera.getCameraPermissionStatus()
@@ -52,7 +52,8 @@ export default ({navigation, children}: GPWithCameraPermissionProps) => {
         setHasPermission(true)
         setCanRender(true)
       })
-      .catch(() => {
+      .catch(err => {
+        console.log(err)
         const linkToSettings: AlertButton = {
           text: 'Settings',
           onPress: () =>
@@ -81,7 +82,7 @@ export default ({navigation, children}: GPWithCameraPermissionProps) => {
   }, [])
   return (
     <CameraPermissionContext.Provider
-      value={{hasCameraPermission: hasPermission, devices}}>
+      value={{hasCameraPermission: hasPermission, checked: canRender}}>
       {canRender && children}
     </CameraPermissionContext.Provider>
   )

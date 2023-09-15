@@ -24,9 +24,11 @@ export default () => (
   <MainContextProvider>
     <MainStack.Navigator>
       <MainStack.Screen name="Feed" component={Feed} />
-      <MainStack.Group screenOptions={{presentation: 'modal'}}>
-        <MainStack.Screen name="CreatePost" component={CreatePost} />
-      </MainStack.Group>
+      <MainStack.Screen
+        name="CreatePost"
+        component={CreatePost}
+        options={{presentation: 'modal'}}
+      />
     </MainStack.Navigator>
   </MainContextProvider>
 )

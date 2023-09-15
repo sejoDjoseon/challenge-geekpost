@@ -16,7 +16,7 @@ export default () => {
   }
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Text style={styles.title}>Feed</Text>
       <Button onPress={() => navigation.navigate('CreatePost')}>
         Create Post
