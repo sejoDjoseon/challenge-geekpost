@@ -12,18 +12,39 @@ import {useCreatePostContext} from '../../../../context/createPost/context'
 import GPFormContainer from '../../../../components/GPFormContainer/GPFormContainer'
 import {useRef} from 'react'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
-import Header from '../Header'
 import GPHeaderBackButton from '../../../../components/GPHeaderBackButton/GPHeaderBackButton'
 import {Button, Text} from 'react-native-paper'
+import Header from '../../../../components/GPHeader/GPHeader'
 
 export default () => {
   const navigation = useNavigation<FeedProps['navigation']>()
-  const {imagePath} = useCreatePostContext()
+  const {imagePath, description} = useCreatePostContext()
   const textInput = useRef<TextInput>(null)
   const {bottom: bottomInset} = useSafeAreaInsets()
 
   return (
     <>
+      <Header>
+        <View style={{flex: 4, alignItems: 'flex-start'}}>
+          <GPHeaderBackButton
+            mode="arrow"
+            onPress={() => {
+              navigation.goBack()
+            }}></GPHeaderBackButton>
+        </View>
+        <View style={{flex: 7, alignItems: 'center'}}>
+          <Text>Crear publicacion</Text>
+        </View>
+        <View style={{flex: 4, alignItems: 'flex-end'}}>
+          <Button
+            disabled={!description || description.length === 0}
+            onPress={() => {
+              navigation.navigate('Feed')
+            }}>
+            Publicar
+          </Button>
+        </View>
+      </Header>
       <GPFormContainer style={{paddingBottom: bottomInset}}>
         <View
           style={{

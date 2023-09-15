@@ -19,6 +19,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import GPCameraButton from '../../../../components/GPCameraButton/GPCameraButton'
 import GPImagesLibraryIconButton from '../../../../components/GPImagesLibraryIconButton/GPImagesLibraryIconButton'
 import {useCreatePostContext} from '../../../../context/createPost/context'
+import Header from '../../../../components/GPHeader/GPHeader'
+import GPHeaderBackButton from '../../../../components/GPHeaderBackButton/GPHeaderBackButton'
 
 const TakePhoteScreen = () => {
   const navigation = useNavigation<WriteDescriptionProps['navigation']>()
@@ -76,62 +78,77 @@ const TakePhoteScreen = () => {
   if (hasCameraPermission && !devices.back) return <></>
 
   return (
-    <View style={{flex: 1}}>
-      {hasCameraPermission && devices.back ? (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'flex-end',
-          }}>
-          <Camera
-            ref={camera}
-            device={devices.back}
-            photo={true}
-            isActive={isAppForeground && isFocused}
-            style={{height: '100%'}}
-            orientation={'portrait'}
-          />
+    <>
+      <Header>
+        <View style={{flex: 4, alignItems: 'flex-start'}}>
+          <GPHeaderBackButton
+            mode="cross"
+            onPress={() => {
+              navigation.goBack()
+            }}></GPHeaderBackButton>
+        </View>
+        <View style={{flex: 7, alignItems: 'center'}}>
+          <Text>Crear publicacion</Text>
+        </View>
+        <View style={{flex: 4, alignItems: 'flex-end'}}></View>
+      </Header>
+      <View style={{flex: 1}}>
+        {hasCameraPermission && devices.back ? (
           <View
             style={{
-              flexDirection: 'row',
+              flex: 1,
               justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingTop: 20,
-              paddingBottom: insets.bottom + 20,
-              backgroundColor: 'black',
-              paddingHorizontal: 20,
             }}>
-            <View style={{width: 40}}></View>
-            <GPCameraButton
-              onPress={() => {
-                takePhoto()
-              }}
+            <Camera
+              ref={camera}
+              device={devices.back}
+              photo={true}
+              isActive={isAppForeground && isFocused}
+              style={{flex: 1}}
+              orientation={'portrait'}
             />
-            <View style={{width: 40}}>
-              <GPImagesLibraryIconButton
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingTop: 20,
+                paddingBottom: insets.bottom + 20,
+                backgroundColor: 'black',
+                paddingHorizontal: 20,
+              }}>
+              <View style={{width: 40}}></View>
+              <GPCameraButton
                 onPress={() => {
-                  openLibrary()
-                }}></GPImagesLibraryIconButton>
+                  takePhoto()
+                }}
+              />
+              <View style={{width: 40}}>
+                <GPImagesLibraryIconButton
+                  onPress={() => {
+                    openLibrary()
+                  }}></GPImagesLibraryIconButton>
+              </View>
             </View>
           </View>
-        </View>
-      ) : (
-        <GPFormContainer>
-          <>
-            <Text>
-              Escoge una foto de tu libreria para crear tu publicacion
-            </Text>
-            <Button
-              mode="contained"
-              onPress={() => {
-                openLibrary()
-              }}>
-              Open Library
-            </Button>
-          </>
-        </GPFormContainer>
-      )}
-    </View>
+        ) : (
+          <GPFormContainer>
+            <>
+              <Text>
+                Escoge una foto de tu libreria para crear tu publicacion
+              </Text>
+              <Button
+                mode="contained"
+                onPress={() => {
+                  openLibrary()
+                }}>
+                Open Library
+              </Button>
+            </>
+          </GPFormContainer>
+        )}
+      </View>
+    </>
   )
 }
 

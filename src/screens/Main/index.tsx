@@ -22,7 +22,7 @@ const MainStack = createNativeStackNavigator<MainStackParamList>()
 
 export default () => (
   <MainContextProvider>
-    <MainStack.Navigator>
+    <MainStack.Navigator screenOptions={{headerShown: false}}>
       <MainStack.Screen name="Feed" component={Feed} />
       <MainStack.Screen
         name="CreatePost"
