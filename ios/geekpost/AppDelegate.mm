@@ -2,6 +2,7 @@
 
 // firebase
 #import <Firebase.h>
+#import "RNFBMessagingModule.h"
 
 #import <React/RCTBundleURLProvider.h>
 
@@ -11,6 +12,7 @@
 {
   // firebase ------
   [FIRApp configure];
+  self.initialProps = [RNFBMessagingModule addCustomPropsToUserProps:nil withLaunchOptions:launchOptions];
   // ---------------
 
   self.moduleName = @"geekpost";

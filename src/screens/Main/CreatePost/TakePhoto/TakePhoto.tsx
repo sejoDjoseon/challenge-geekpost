@@ -63,7 +63,7 @@ const TakePhoteScreen = () => {
     camera.current
       ?.takePhoto({
         enableAutoStabilization: true,
-        qualityPrioritization: 'balanced',
+        qualityPrioritization: 'speed',
       })
       .then(picture => {
         createPostCtx.setImagePath(`file://${picture.path}`)

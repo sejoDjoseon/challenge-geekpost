@@ -1,11 +1,7 @@
 import * as React from 'react'
 import {NavigationProp} from '@react-navigation/core'
 import {ReactNode, createContext, useContext, useEffect, useState} from 'react'
-import {
-  Camera,
-  CameraDevices,
-  useCameraDevices,
-} from 'react-native-vision-camera'
+import {Camera} from 'react-native-vision-camera'
 import {Alert, AlertButton, Linking, Platform} from 'react-native'
 
 export interface ICameraDevicesContext {
