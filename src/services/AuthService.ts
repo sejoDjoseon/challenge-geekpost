@@ -6,8 +6,11 @@ export interface IAuthInfra {
     email: string,
     password: string,
     userData: {name: string; surname: string},
-  ) => Promise<string>
-  login: (email: string, password: string) => Promise<string>
+  ) => Promise<{id: string; userName: string}>
+  login: (
+    email: string,
+    password: string,
+  ) => Promise<{id: string; userName: string}>
 }
 
 export interface IAuthService {
@@ -30,10 +33,11 @@ export default class AuthService implements IAuthService {
     this.authStore.dispatch({type: ActionKind.REQUEST_LOGIN})
     this.authInfra
       .register(email, password, userData)
-      .then(userId => {
+      .then(({id, userName}) => {
         this.authStore.dispatch({
           type: ActionKind.LOGIN_SUCCESS,
-          userId: userId,
+          userId: id,
+          userName,
         })
       })
       .catch(err => {
@@ -49,10 +53,11 @@ export default class AuthService implements IAuthService {
     this.authStore.dispatch({type: ActionKind.REQUEST_LOGIN})
     this.authInfra
       .login(email, password)
-      .then(userId => {
+      .then(({id, userName}) => {
         this.authStore.dispatch({
           type: ActionKind.LOGIN_SUCCESS,
-          userId: userId,
+          userId: id,
+          userName,
         })
       })
       .catch(err => {

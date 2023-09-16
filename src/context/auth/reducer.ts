@@ -2,6 +2,7 @@ import {Action, ActionKind} from './actions'
 
 export interface AuthState {
   userId: string | null
+  userName: string | null
   loading: boolean
   errorMessage: string | null
 }
@@ -10,6 +11,7 @@ export const initialState: AuthState = {
   userId: null,
   loading: false,
   errorMessage: null,
+  userName: null,
 }
 
 export const authReducer = (
@@ -26,6 +28,7 @@ export const authReducer = (
       return {
         ...initialState,
         userId: action.userId,
+        userName: action.userName,
         loading: false,
       }
     case ActionKind.LOGOUT:

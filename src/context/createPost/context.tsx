@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useRef,
-  useState,
-} from 'react'
+import React, {ReactNode, createContext, useContext, useState} from 'react'
 
 export interface ICreatePostContext {
   imagePath: string | undefined

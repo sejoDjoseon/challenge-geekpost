@@ -4,7 +4,7 @@ import {
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native'
-import {StyleSheet, View} from 'react-native'
+import {Platform, StyleSheet, View} from 'react-native'
 import {Button, Text} from 'react-native-paper'
 import {WriteDescriptionProps} from '..'
 import {launchImageLibrary} from 'react-native-image-picker'
@@ -74,7 +74,7 @@ const TakePhoteScreen = () => {
       })
   }
 
-  if (hasCameraPermission && !devices.back) return <></>
+  if (hasCameraPermission && !devices.back && Platform.OS != 'ios') return <></>
 
   return (
     <>

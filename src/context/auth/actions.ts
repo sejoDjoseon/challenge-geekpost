@@ -12,6 +12,7 @@ export interface RequestLoginAction {
 export interface LoginSuccessAction {
   type: ActionKind.LOGIN_SUCCESS
   userId: string
+  userName: string
 }
 
 export interface LogoutAction {

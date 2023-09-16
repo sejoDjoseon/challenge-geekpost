@@ -15,12 +15,28 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import GPHeaderBackButton from '../../../../components/GPHeaderBackButton/GPHeaderBackButton'
 import {Button, Text} from 'react-native-paper'
 import Header from '../../../../components/GPHeader/GPHeader'
+import {useMainContext} from '../../../../context/main/context'
 
 export default () => {
   const navigation = useNavigation<FeedProps['navigation']>()
-  const {imagePath, description} = useCreatePostContext()
+  const {imagePath, description, setDescription} = useCreatePostContext()
   const textInput = useRef<TextInput>(null)
   const {bottom: bottomInset} = useSafeAreaInsets()
+  const {feedService} = useMainContext()
+
+  const publicar = () => {
+    if (!(imagePath && description)) {
+      return
+    }
+    feedService
+      .createFeed(imagePath, description)
+      .then(() => {
+        navigation.navigate('Feed')
+      })
+      .catch(err => {
+        console.warn(err)
+      })
+  }
 
   return (
     <>
@@ -39,7 +55,7 @@ export default () => {
           <Button
             disabled={!description || description.length === 0}
             onPress={() => {
-              navigation.navigate('Feed')
+              publicar()
             }}>
             Publicar
           </Button>
@@ -55,7 +71,7 @@ export default () => {
           }}>
           <Image
             source={{uri: imagePath}}
-            style={{flex: 3, resizeMode: 'center', margin: 20}}
+            style={{flex: 3, resizeMode: 'contain', margin: 20}}
           />
           <TouchableWithoutFeedback onPress={() => textInput.current?.focus()}>
             <View
@@ -69,6 +85,8 @@ export default () => {
                 multiline={true}
                 maxLength={1000}
                 placeholder="Escribe aqui tu descripcion..."
+                value={description}
+                onChangeText={text => setDescription(text)}
               />
             </View>
           </TouchableWithoutFeedback>
