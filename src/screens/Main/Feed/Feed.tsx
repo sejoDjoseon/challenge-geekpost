@@ -1,7 +1,10 @@
-import {useNavigation} from '@react-navigation/native'
-import * as React from 'react'
-import {Image, StyleSheet, Text, View} from 'react-native'
-import {Button} from 'react-native-paper'
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+} from '@react-navigation/native'
+import React, {useCallback, useEffect, useState} from 'react'
+import {FlatList, Image, StyleSheet, View} from 'react-native'
 import {CreatePostProps} from '..'
 import {useMainContext} from '../../../context/main/context'
 import GPHeader from '../../../components/GPHeader/GPHeader'
@@ -9,14 +12,32 @@ import GPHeader from '../../../components/GPHeader/GPHeader'
 import {GEEKPOST} from '../../../assets'
 import GPAccountIconButton from '../../../components/GPAccountIconButton/GPAccountIconButton'
 import GPAddPostIconButton from '../../../components/GPAddPostIconButton/GPAddPostIconButton'
+import {FeedPost} from '../../../models/feedPost'
+import GPPostCard from '../../../components/GPPostCard/GPPostCard'
 
 export default () => {
   const navigation = useNavigation<CreatePostProps['navigation']>()
   const {feedService} = useMainContext()
+  const [feed, setFeed] = useState<FeedPost[]>([])
+  const [refreshing, setRefreshing] = useState(false)
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    isFocused && getFeed()
+  }, [isFocused])
 
   const getFeed = () => {
-    feedService.getFeed().then(feed => {
-      console.log(feed)
+    setRefreshing(true)
+    feedService.getFeed().then(feedRes => {
+      setFeed(feedRes)
+      setRefreshing(false)
+    })
+  }
+
+  const getMoreFeed = () => {
+    setRefreshing(true)
+    feedService.getMoreFeed().then(moreFeed => {
+      setFeed([...feed, ...moreFeed])
     })
   }
 
@@ -36,16 +57,14 @@ export default () => {
           <GPAccountIconButton></GPAccountIconButton>
         </View>
       </GPHeader>
-      <View style={{flex: 1}}>
-        <Text style={styles.title}>Feed</Text>
-        <Button
-          mode="contained"
-          onPress={() => {
-            getFeed()
-          }}>
-          Get Post
-        </Button>
-      </View>
+      <FlatList
+        data={feed}
+        renderItem={item => <GPPostCard feedPost={item.item} />}
+        keyExtractor={item => item.id}
+        onEndReached={() => getMoreFeed()}
+        onEndReachedThreshold={0}
+        refreshing={refreshing}
+      />
     </>
   )
 }

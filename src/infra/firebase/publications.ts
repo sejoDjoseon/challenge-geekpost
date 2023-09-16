@@ -5,24 +5,32 @@ import firestore from '@react-native-firebase/firestore'
 export default class PublicationsInfra implements IFeedInfra {
   #publicationsCol = firestore().collection('publications')
 
-  getFeed = () => {
-    return new Promise<FeedPost[]>((resolve, reject) => {
-      this.#publicationsCol
-        // .limit(5)
-        .get()
+  getFeed = (cursor?: any) => {
+    const query = cursor
+      ? this.#publicationsCol
+          .orderBy('create_date', 'desc')
+          .startAfter(cursor)
+          .limit(5)
+          .get()
+      : this.#publicationsCol.orderBy('create_date', 'desc').limit(5).get()
+    return new Promise<{feed: FeedPost[]; cursor: any}>((resolve, reject) => {
+      query
         .then(docData => {
+          if (docData.docs.length === 0) resolve({feed: [], cursor: null})
           const result = docData.docs.map(val => {
             const data = val.data()
-            console.log(data['user'])
             return {
               id: val.id,
-              userName: 'lala',
+              userName: data.user_name,
               imgUrl: data.img_url,
               description: data.description,
-              date: new Date(),
+              date: new Date(data.create_date.toDate()),
             }
           })
-          resolve(result)
+          resolve({
+            feed: result,
+            cursor: docData.docs[docData.docs.length - 1].data().create_date,
+          })
         })
         .catch(err => reject(err))
     })

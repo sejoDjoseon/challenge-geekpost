@@ -1,7 +1,7 @@
 import {FeedPost} from '../models/feedPost'
 
 export interface IFeedInfra {
-  getFeed: () => Promise<FeedPost[]>
+  getFeed: (startAfterId?: string) => Promise<{feed: FeedPost[]; cursor: any}>
   createPublication: (
     imagePath: string,
     description: string,
@@ -19,16 +19,30 @@ export interface UserData {
 
 export interface IFeedService {
   getFeed: () => Promise<FeedPost[]>
+  getMoreFeed: () => Promise<FeedPost[]>
+  createFeed: (imagePath: string, description: string) => Promise<void>
 }
 
 export class FeedService implements IFeedService {
+  #cursor?: any
+
   constructor(
     private feedInfra: IFeedInfra,
     private userData: UserData,
     private fileStorage: IStorageInfra,
   ) {}
 
-  getFeed = () => this.feedInfra.getFeed()
+  getFeed = () =>
+    this.feedInfra.getFeed().then(({feed, cursor}) => {
+      if (cursor) this.#cursor = cursor
+      return feed
+    })
+
+  getMoreFeed = () =>
+    this.feedInfra.getFeed(this.#cursor).then(({feed, cursor}) => {
+      if (cursor) this.#cursor = cursor
+      return feed
+    })
 
   createFeed = (imagePath: string, description: string) => {
     const userName = this.userData.userName
