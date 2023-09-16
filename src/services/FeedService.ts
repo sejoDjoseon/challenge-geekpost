@@ -34,15 +34,19 @@ export class FeedService implements IFeedService {
 
   getFeed = () =>
     this.feedInfra.getFeed().then(({feed, cursor}) => {
-      if (cursor) this.#cursor = cursor
+      this.#cursor = cursor
       return feed
     })
 
   getMoreFeed = () =>
-    this.feedInfra.getFeed(this.#cursor).then(({feed, cursor}) => {
-      if (cursor) this.#cursor = cursor
-      return feed
-    })
+    this.#cursor
+      ? this.feedInfra.getFeed(this.#cursor).then(({feed, cursor}) => {
+          this.#cursor = cursor
+          return feed
+        })
+      : new Promise<FeedPost[]>(resolve => {
+          resolve([])
+        })
 
   createFeed = (imagePath: string, description: string) => {
     const userName = this.userData.userName

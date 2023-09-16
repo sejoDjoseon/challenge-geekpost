@@ -1,9 +1,5 @@
-import {
-  useFocusEffect,
-  useIsFocused,
-  useNavigation,
-} from '@react-navigation/native'
-import React, {useCallback, useEffect, useState} from 'react'
+import {useIsFocused, useNavigation} from '@react-navigation/native'
+import React, {useEffect, useState} from 'react'
 import {FlatList, Image, StyleSheet, View} from 'react-native'
 import {CreatePostProps} from '..'
 import {useMainContext} from '../../../context/main/context'
