@@ -24,7 +24,7 @@ import GPHeaderBackButton from '../../../../components/GPHeaderBackButton/GPHead
 
 const TakePhoteScreen = () => {
   const navigation = useNavigation<WriteDescriptionProps['navigation']>()
-  const {hasCameraPermission, checked} = useCameraPermissionContext()
+  const {hasCameraPermission} = useCameraPermissionContext()
   const isAppForeground = useIsForeground()
   const isFocused = useIsFocused()
   const devices = useCameraDevices()
@@ -79,54 +79,47 @@ const TakePhoteScreen = () => {
   return (
     <>
       <Header>
-        <View style={{flex: 4, alignItems: 'flex-start'}}>
+        <View style={styles.headerCrossButton}>
           <GPHeaderBackButton
             mode="cross"
             onPress={() => {
               navigation.goBack()
-            }}></GPHeaderBackButton>
+            }}
+          />
         </View>
-        <View style={{flex: 7, alignItems: 'center'}}>
+        <View style={styles.headerTitle}>
           <Text>Crear publicacion</Text>
         </View>
-        <View style={{flex: 4, alignItems: 'flex-end'}}></View>
+        <View style={styles.headerRight} />
       </Header>
-      <View style={{flex: 1}}>
+      <View style={styles.flex1}>
         {hasCameraPermission && devices.back ? (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'space-between',
-            }}>
+          <View style={[styles.flex1, styles.cameraContainer]}>
             <Camera
               ref={camera}
               device={devices.back}
               photo={true}
               isActive={isAppForeground && isFocused}
-              style={{flex: 1}}
+              style={styles.flex1}
               orientation={'portrait'}
             />
             <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingTop: 20,
-                paddingBottom: insets.bottom + 20,
-                backgroundColor: 'black',
-                paddingHorizontal: 20,
-              }}>
-              <View style={{width: 40}}></View>
+              style={[
+                styles.cameraButtonsContainer,
+                {paddingBottom: insets.bottom + 20},
+              ]}>
+              <View style={styles.cameraButtonSideContainer} />
               <GPCameraButton
                 onPress={() => {
                   takePhoto()
                 }}
               />
-              <View style={{width: 40}}>
+              <View style={styles.cameraButtonSideContainer}>
                 <GPImagesLibraryIconButton
                   onPress={() => {
                     openLibrary()
-                  }}></GPImagesLibraryIconButton>
+                  }}
+                />
               </View>
             </View>
           </View>
@@ -153,13 +146,25 @@ const TakePhoteScreen = () => {
 
 export default ({navigation}: {navigation: NavigationProp<any, any>}) => (
   <GPWithCameraPermission navigation={navigation}>
-    <TakePhoteScreen></TakePhoteScreen>
+    <TakePhoteScreen />
   </GPWithCameraPermission>
 )
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 30,
-    fontWeight: '700',
+  headerCrossButton: {flex: 4, alignItems: 'flex-start'},
+  headerTitle: {flex: 7, alignItems: 'center'},
+  headerRight: {flex: 4, alignItems: 'flex-end'},
+  flex1: {flex: 1},
+  cameraContainer: {
+    justifyContent: 'space-between',
   },
+  cameraButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 20,
+    backgroundColor: 'black',
+    paddingHorizontal: 20,
+  },
+  cameraButtonSideContainer: {width: 40},
 })
