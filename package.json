@@ -9,7 +9,10 @@
     "start": "react-native start",
     "test": "jest",
     "pod:update": "./scripts/pod-update.sh",
-    "postinstall": "./scripts/post-install.sh"
+    "postinstall": "./scripts/post-install.sh",
+    "bundle:android:debug": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
+    "assemble:android:debug": "cd android && ./gradlew assembleDebug && cd ..",
+    "android:debug:apk": "yarn bundle:android:debug && yarn assemble:android:debug"
   },
   "dependencies": {
     "@react-native-firebase/app": "^18.4.0",
