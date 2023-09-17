@@ -32,7 +32,7 @@ export default () => {
           .subscribeToTopic('all')
           .then(() => console.info('Subscribed to topic!'))
     })
-  }, [])
+  }, [checkNotification])
 
   return (
     <MainContextProvider>

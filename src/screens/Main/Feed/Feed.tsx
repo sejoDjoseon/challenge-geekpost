@@ -1,5 +1,5 @@
 import {useIsFocused, useNavigation} from '@react-navigation/native'
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {FlatList, Image, StyleSheet, View} from 'react-native'
 import {CreatePostProps} from '..'
 import {useMainContext} from '../../../context/main/context'
@@ -18,17 +18,13 @@ export default () => {
   const [refreshing, setRefreshing] = useState(false)
   const isFocused = useIsFocused()
 
-  useEffect(() => {
-    isFocused && getFeed()
-  }, [isFocused])
-
-  const getFeed = () => {
+  const getFeed = useCallback(() => {
     setRefreshing(true)
     feedService.getFeed().then(feedRes => {
       setFeed(feedRes)
       setRefreshing(false)
     })
-  }
+  }, [feedService])
 
   const getMoreFeed = () => {
     setRefreshing(true)
@@ -37,20 +33,22 @@ export default () => {
     })
   }
 
+  useEffect(() => {
+    isFocused && getFeed()
+  }, [getFeed, isFocused])
+
   return (
     <>
       <GPHeader>
-        <View style={{flex: 3}}>
-          <Image source={GEEKPOST}></Image>
+        <View style={styles.headerIcon}>
+          <Image source={GEEKPOST} />
         </View>
-        <View
-          style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <View style={styles.headerRightIcons}>
           <GPAddPostIconButton
-            style={{marginRight: 10}}
-            onPress={() =>
-              navigation.navigate('CreatePost')
-            }></GPAddPostIconButton>
-          <GPAccountIconButton></GPAccountIconButton>
+            style={styles.headerPostIcon}
+            onPress={() => navigation.navigate('CreatePost')}
+          />
+          <GPAccountIconButton />
         </View>
       </GPHeader>
       <FlatList
@@ -66,8 +64,7 @@ export default () => {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 30,
-    fontWeight: '700',
-  },
+  headerIcon: {flex: 3},
+  headerRightIcons: {flex: 1, flexDirection: 'row', justifyContent: 'flex-end'},
+  headerPostIcon: {marginRight: 10},
 })
