@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {StyleSheet, View} from 'react-native'
+import {Alert, StyleSheet, View} from 'react-native'
 import {useAuthContext} from '../../../context/auth/context'
 import {Button, HelperText, Text, TextInput} from 'react-native-paper'
 import {useNavigation} from '@react-navigation/native'
@@ -39,17 +39,21 @@ export default () => {
     authService.login(email, password)
   }
 
+  useEffect(() => {
+    authState.errorMessage && Alert.alert(t.loginError)
+  }, [authState])
+
   return (
     <GPSafeArea>
       <GPFormContainer>
         <GPHorizontalContainer>
           <View style={styles.titleContainer}>
-            <Text variant="headlineLarge">Login</Text>
+            <Text variant="headlineSmall">{t.title}</Text>
           </View>
 
           <View style={styles.emailInputContainer}>
             <View>
-              <Text>Email</Text>
+              <Text>{t.inputEmail}</Text>
               <TextInput
                 mode="outlined"
                 value={form.email}
@@ -59,12 +63,12 @@ export default () => {
                 }}
               />
               <HelperText type="error" visible={emailError}>
-                El email no parece valido
+                {t.errorEmail}
               </HelperText>
             </View>
 
             <View>
-              <Text>Contrasena</Text>
+              <Text>{t.inputPassword}</Text>
               <TextInput
                 mode="outlined"
                 secureTextEntry={true}
@@ -84,13 +88,13 @@ export default () => {
               onPress={() => {
                 checkAndLogin()
               }}>
-              Iniciar sesion
+              {t.logIn}
             </Button>
           </View>
 
           <View style={styles.alterButtonContainer}>
             <Button onPress={() => navigation.navigate('Register')}>
-              Aun no tienes una cuenta? Crear cuenta
+              {t.register}
             </Button>
           </View>
         </GPHorizontalContainer>
@@ -105,3 +109,14 @@ const styles = StyleSheet.create({
   mainButtonContainer: {paddingVertical: 20},
   alterButtonContainer: {paddingVertical: 20},
 })
+
+const t = {
+  title: '¡Te echabamos de menos!',
+  inputEmail: 'Email',
+  errorEmail: 'El email no parece valido',
+  inputPassword: 'Contrasena',
+  errorPassword: 'La contrasena introducida no es valida',
+  loginError: 'Error al iniciar sesión',
+  logIn: 'Iniciar sesión',
+  register: '¿Todavía no tienes una cuenta? Crear cuenta',
+}

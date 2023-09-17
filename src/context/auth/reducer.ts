@@ -23,6 +23,7 @@ export const authReducer = (
       return {
         ...initState,
         loading: true,
+        errorMessage: null,
       }
     case ActionKind.LOGIN_SUCCESS:
       return {

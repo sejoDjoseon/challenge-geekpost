@@ -8,6 +8,7 @@ import CreatePost from './CreatePost'
 import {MainContextProvider} from '../../context/main/context'
 import {useNotificationsPermission} from '../../hooks/useNotificationPermission'
 import messaging from '@react-native-firebase/messaging'
+import {useTheme} from 'react-native-paper'
 
 export type MainStackParamList = {
   Feed: undefined
@@ -23,6 +24,7 @@ export type FeedProps = NativeStackScreenProps<MainStackParamList, 'Feed'>
 const MainStack = createNativeStackNavigator<MainStackParamList>()
 
 export default () => {
+  const {colors} = useTheme()
   const checkNotification = useNotificationsPermission()
 
   useEffect(() => {
@@ -37,7 +39,11 @@ export default () => {
   return (
     <MainContextProvider>
       <MainStack.Navigator screenOptions={{headerShown: false}}>
-        <MainStack.Screen name="Feed" component={Feed} />
+        <MainStack.Screen
+          name="Feed"
+          component={Feed}
+          options={{navigationBarColor: colors.background}}
+        />
         <MainStack.Screen
           name="CreatePost"
           component={CreatePost}

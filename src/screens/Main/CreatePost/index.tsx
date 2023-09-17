@@ -6,6 +6,7 @@ import {
 import TakePhoto from './TakePhoto/TakePhoto'
 import WriteDescription from './WriteDescription/WriteDescription'
 import {CreatePostContextProvider} from '../../../context/createPost/context'
+import {useTheme} from 'react-native-paper'
 
 export type CreatePostParamList = {
   TakePhoto: undefined
@@ -19,14 +20,22 @@ export type WriteDescriptionProps = NativeStackScreenProps<
 
 const CreatePostStack = createNativeStackNavigator<CreatePostParamList>()
 
-export default () => (
-  <CreatePostContextProvider>
-    <CreatePostStack.Navigator screenOptions={{headerShown: false}}>
-      <CreatePostStack.Screen name="TakePhoto" component={TakePhoto} />
-      <CreatePostStack.Screen
-        name="WriteDescription"
-        component={WriteDescription}
-      />
-    </CreatePostStack.Navigator>
-  </CreatePostContextProvider>
-)
+export default () => {
+  const {colors} = useTheme()
+  return (
+    <CreatePostContextProvider>
+      <CreatePostStack.Navigator screenOptions={{headerShown: false}}>
+        <CreatePostStack.Screen
+          name="TakePhoto"
+          component={TakePhoto}
+          options={{navigationBarColor: 'black'}}
+        />
+        <CreatePostStack.Screen
+          name="WriteDescription"
+          component={WriteDescription}
+          options={{navigationBarColor: colors.background}}
+        />
+      </CreatePostStack.Navigator>
+    </CreatePostContextProvider>
+  )
+}

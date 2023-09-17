@@ -63,12 +63,12 @@ export default () => {
       <GPFormContainer>
         <GPHorizontalContainer>
           <View style={styles.titleContainer}>
-            <Text variant="headlineLarge">Register</Text>
+            <Text variant="headlineSmall">{t.title}</Text>
           </View>
 
           <View style={styles.inputsGroup}>
             <View style={styles.inputNoHelperContainer}>
-              <Text>Nombre</Text>
+              <Text>{t.inputName}</Text>
               <TextInput
                 mode="outlined"
                 value={form.name}
@@ -78,7 +78,7 @@ export default () => {
               />
             </View>
             <View style={styles.inputNoHelperContainer}>
-              <Text>Apellidos</Text>
+              <Text>{t.inputSurnmane}</Text>
               <TextInput
                 mode="outlined"
                 value={form.surname}
@@ -88,7 +88,7 @@ export default () => {
               />
             </View>
             <View>
-              <Text>Email</Text>
+              <Text>{t.inputEmail}</Text>
               <TextInput
                 mode="outlined"
                 keyboardType="email-address"
@@ -99,12 +99,12 @@ export default () => {
                 }}
               />
               <HelperText type="error" visible={emailError}>
-                El email introducido no es valido
+                {t.errorEmail}
               </HelperText>
             </View>
 
             <View>
-              <Text>Contrasena</Text>
+              <Text>{t.inputPassword}</Text>
               <TextInput
                 mode="outlined"
                 secureTextEntry={true}
@@ -115,7 +115,7 @@ export default () => {
                 }}
               />
               <HelperText type="error" visible={passwordError}>
-                La contrasena introducida no es valida
+                {t.errorPassword}
               </HelperText>
             </View>
           </View>
@@ -132,9 +132,7 @@ export default () => {
               }}
             />
             <View style={styles.termsAndConditionsDescription}>
-              <Text>
-                Acepto los Términos y condiciones y la Política de privacidad
-              </Text>
+              <Text>{t.tAndC}</Text>
             </View>
           </View>
 
@@ -146,13 +144,13 @@ export default () => {
               onPress={() => {
                 checkAndCreateAccount()
               }}>
-              Crear cuenta
+              {t.createAccount}
             </Button>
           </View>
 
           <View style={styles.altButtonContainer}>
             <Button onPress={() => navigation.navigate('Login')}>
-              Ya tienes una cuenta? Iniciar sesion
+              {t.logIn}
             </Button>
           </View>
         </GPHorizontalContainer>
@@ -177,3 +175,16 @@ const styles = StyleSheet.create({
   mainButtonContainer: {paddingVertical: 10},
   altButtonContainer: {paddingTop: 10, paddingBottom: 30},
 })
+
+const t = {
+  title: '¡Bienvenido! 👋',
+  inputName: 'Nombre',
+  inputSurnmane: 'Apellidos',
+  inputEmail: 'Email',
+  errorEmail: 'El email introducido no es valido',
+  inputPassword: 'Contrasena',
+  errorPassword: 'La contrasena introducida no es valida',
+  tAndC: 'Acepto los Términos y condiciones y la Política de privacidad',
+  createAccount: 'Crear cuenta',
+  logIn: 'Ya tienes una cuenta? Iniciar sesion',
+}

@@ -4,7 +4,7 @@ import {
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native'
-import {Platform, StyleSheet, View} from 'react-native'
+import {Alert, Platform, StyleSheet, View} from 'react-native'
 import {Button, Text} from 'react-native-paper'
 import {WriteDescriptionProps} from '..'
 import {launchImageLibrary} from 'react-native-image-picker'
@@ -56,6 +56,7 @@ const TakePhoteScreen = () => {
       })
       .catch(err => {
         console.warn(err)
+        Alert.alert(t.error)
       })
   }
 
@@ -71,6 +72,7 @@ const TakePhoteScreen = () => {
       })
       .catch(err => {
         console.warn(err)
+        Alert.alert(t.error)
       })
   }
 
@@ -89,7 +91,7 @@ const TakePhoteScreen = () => {
           />
         </View>
         <View style={styles.headerTitle}>
-          <Text>Crear publicacion</Text>
+          <Text>{t.title}</Text>
         </View>
         <View style={styles.headerRight} />
       </Header>
@@ -127,15 +129,13 @@ const TakePhoteScreen = () => {
         ) : (
           <GPFormContainer>
             <>
-              <Text>
-                Escoge una foto de tu libreria para crear tu publicacion
-              </Text>
+              <Text>{t.descriptionNoCamera}</Text>
               <Button
                 mode="contained"
                 onPress={() => {
                   openLibrary()
                 }}>
-                Open Library
+                {t.openLibrary}
               </Button>
             </>
           </GPFormContainer>
@@ -169,3 +169,11 @@ const styles = StyleSheet.create({
   },
   cameraButtonSideContainer: {width: 40},
 })
+
+const t = {
+  title: 'Crear publicación',
+  descriptionNoCamera:
+    'Escoge una foto de tu librería para crear tu publicación',
+  openLibrary: 'Escoger foto',
+  error: 'Algo salió mal',
+}

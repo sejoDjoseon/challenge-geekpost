@@ -1,6 +1,7 @@
+import React, {useRef, useState} from 'react'
 import {useNavigation} from '@react-navigation/native'
-import * as React from 'react'
 import {
+  Alert,
   Image,
   StyleSheet,
   TextInput,
@@ -10,7 +11,6 @@ import {
 import {FeedProps} from '../..'
 import {useCreatePostContext} from '../../../../context/createPost/context'
 import GPFormContainer from '../../../../components/GPFormContainer/GPFormContainer'
-import {useRef} from 'react'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import GPHeaderBackButton from '../../../../components/GPHeaderBackButton/GPHeaderBackButton'
 import {Button, Text} from 'react-native-paper'
@@ -24,10 +24,15 @@ export default () => {
   const {bottom: bottomInset} = useSafeAreaInsets()
   const {feedService} = useMainContext()
 
+  const [loading, setLoading] = useState(false)
+
   const publicar = () => {
     if (!(imagePath && description)) {
       return
     }
+
+    setLoading(true)
+
     feedService
       .createFeed(imagePath, description)
       .then(() => {
@@ -35,7 +40,9 @@ export default () => {
       })
       .catch(err => {
         console.warn(err)
+        Alert.alert(t.error)
       })
+      .finally(() => setLoading(false))
   }
 
   return (
@@ -50,15 +57,16 @@ export default () => {
           />
         </View>
         <View style={styles.headerTitle}>
-          <Text>Crear publicacion</Text>
+          <Text>{t.title}</Text>
         </View>
         <View style={styles.headerRight}>
           <Button
             disabled={!description || description.length === 0}
+            loading={loading}
             onPress={() => {
               publicar()
             }}>
-            Publicar
+            {t.publish}
           </Button>
         </View>
       </Header>
@@ -69,9 +77,9 @@ export default () => {
             <View style={styles.textAreaContainer}>
               <TextInput
                 ref={textInput}
-                multiline={true}
+                multiline
                 maxLength={1000}
-                placeholder="Escribe aqui tu descripcion..."
+                placeholder={t.descriptionPlaceholder}
                 value={description}
                 onChangeText={text => setDescription(text)}
               />
@@ -100,3 +108,11 @@ const styles = StyleSheet.create({
   },
   image: {flex: 3, resizeMode: 'contain', margin: 20},
 })
+
+const t = {
+  title: 'Crear publicación',
+  publish: 'Publicar',
+  openLibrary: 'Escoger foto',
+  error: 'Algo salió mal',
+  descriptionPlaceholder: 'Escribe aqui tu descripcion...',
+}
