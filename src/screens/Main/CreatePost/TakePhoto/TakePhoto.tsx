@@ -74,7 +74,8 @@ const TakePhoteScreen = () => {
       })
   }
 
-  if (hasCameraPermission && !devices.back && Platform.OS != 'ios') return <></>
+  if (hasCameraPermission && !devices.back && Platform.OS !== 'ios')
+    return <></>
 
   return (
     <>

@@ -74,7 +74,7 @@ export default ({navigation, children}: GPWithCameraPermissionProps) => {
           [linkToSettings, cancel],
         )
       })
-  }, [])
+  }, [navigation])
   return (
     <CameraPermissionContext.Provider
       value={{hasCameraPermission: hasPermission, checked: canRender}}>

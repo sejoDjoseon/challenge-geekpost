@@ -41,17 +41,18 @@ export default () => {
   return (
     <>
       <Header>
-        <View style={{flex: 4, alignItems: 'flex-start'}}>
+        <View style={styles.headerLeft}>
           <GPHeaderBackButton
             mode="arrow"
             onPress={() => {
               navigation.goBack()
-            }}></GPHeaderBackButton>
+            }}
+          />
         </View>
-        <View style={{flex: 7, alignItems: 'center'}}>
+        <View style={styles.headerTitle}>
           <Text>Crear publicacion</Text>
         </View>
-        <View style={{flex: 4, alignItems: 'flex-end'}}>
+        <View style={styles.headerRight}>
           <Button
             disabled={!description || description.length === 0}
             onPress={() => {
@@ -62,24 +63,10 @@ export default () => {
         </View>
       </Header>
       <GPFormContainer style={{paddingBottom: bottomInset}}>
-        <View
-          style={{
-            minHeight: 150,
-            flexDirection: 'row',
-            borderBottomColor: '#F0F0F4',
-            borderBottomWidth: 1,
-          }}>
-          <Image
-            source={{uri: imagePath}}
-            style={{flex: 3, resizeMode: 'contain', margin: 20}}
-          />
+        <View style={styles.container}>
+          <Image source={{uri: imagePath}} style={styles.image} />
           <TouchableWithoutFeedback onPress={() => textInput.current?.focus()}>
-            <View
-              style={{
-                flex: 7,
-                marginVertical: 15,
-                marginRight: 20,
-              }}>
+            <View style={styles.textAreaContainer}>
               <TextInput
                 ref={textInput}
                 multiline={true}
@@ -97,8 +84,19 @@ export default () => {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 30,
-    fontWeight: '700',
+  headerLeft: {flex: 4, alignItems: 'flex-start'},
+  headerTitle: {flex: 7, alignItems: 'center'},
+  headerRight: {flex: 4, alignItems: 'flex-end'},
+  container: {
+    minHeight: 150,
+    flexDirection: 'row',
+    borderBottomColor: '#F0F0F4',
+    borderBottomWidth: 1,
   },
+  textAreaContainer: {
+    flex: 7,
+    marginVertical: 15,
+    marginRight: 20,
+  },
+  image: {flex: 3, resizeMode: 'contain', margin: 20},
 })

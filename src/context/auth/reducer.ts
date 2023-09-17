@@ -15,30 +15,30 @@ export const initialState: AuthState = {
 }
 
 export const authReducer = (
-  initialState: AuthState,
+  initState: AuthState,
   action: Action,
 ): AuthState => {
   switch (action.type) {
     case ActionKind.REQUEST_LOGIN:
       return {
-        ...initialState,
+        ...initState,
         loading: true,
       }
     case ActionKind.LOGIN_SUCCESS:
       return {
-        ...initialState,
+        ...initState,
         userId: action.userId,
         userName: action.userName,
         loading: false,
       }
     case ActionKind.LOGOUT:
       return {
-        ...initialState,
+        ...initState,
         userId: null,
       }
     case ActionKind.LOGIN_ERROR:
       return {
-        ...initialState,
+        ...initState,
         loading: false,
         errorMessage: action.error,
       }
