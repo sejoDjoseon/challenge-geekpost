@@ -7,6 +7,7 @@ import {RegisterProps} from '..'
 import GPFormContainer from '../../../components/GPFormContainer/GPFormContainer'
 import {validateEmail} from '../../../utils/validators'
 import GPSafeArea from '../../../components/GPSafeArea/GPSafeArea'
+import GPHorizontalContainer from '../../../components/GPHorizontalContainer/GPHorizontalContainer'
 
 export default () => {
   const {service: authService, state: authState} = useAuthContext()
@@ -41,12 +42,12 @@ export default () => {
   return (
     <GPSafeArea>
       <GPFormContainer>
-        <View style={{paddingHorizontal: 20}}>
-          <View style={{alignItems: 'center', paddingTop: 60}}>
+        <GPHorizontalContainer>
+          <View style={styles.titleContainer}>
             <Text style={styles.title}>Login</Text>
           </View>
 
-          <View style={{paddingTop: 20, paddingBottom: 20}}>
+          <View style={styles.emailInputContainer}>
             <View>
               <Text>Email</Text>
               <TextInput
@@ -75,7 +76,7 @@ export default () => {
             </View>
           </View>
 
-          <View style={{paddingVertical: 20}}>
+          <View style={styles.mainButtonContainer}>
             <Button
               mode="contained"
               disabled={!formValid}
@@ -87,12 +88,12 @@ export default () => {
             </Button>
           </View>
 
-          <View style={{paddingVertical: 10}}>
+          <View style={styles.alterButtonContainer}>
             <Button onPress={() => navigation.navigate('Register')}>
               Aun no tienes una cuenta? Crear cuenta
             </Button>
           </View>
-        </View>
+        </GPHorizontalContainer>
       </GPFormContainer>
     </GPSafeArea>
   )
@@ -103,4 +104,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '600',
   },
+  titleContainer: {alignItems: 'center', paddingTop: 60},
+  emailInputContainer: {paddingTop: 20, paddingBottom: 20},
+  mainButtonContainer: {paddingVertical: 20},
+  alterButtonContainer: {paddingVertical: 20},
 })
