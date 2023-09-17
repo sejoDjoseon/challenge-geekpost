@@ -12,7 +12,7 @@ export default () => {
   const {service: authService, state: authState} = useAuthContext()
   const navigation = useNavigation<RegisterProps['navigation']>()
 
-  const [form, setForm] = useState({email: 'tt@tt.tt', password: '12345678'})
+  const [form, setForm] = useState({email: '', password: ''})
   const [formValid, setFormValid] = useState(false)
   const [emailError, setEmailError] = useState(false)
 

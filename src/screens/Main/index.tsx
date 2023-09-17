@@ -7,6 +7,7 @@ import Feed from './Feed/Feed'
 import CreatePost from './CreatePost'
 import {MainContextProvider} from '../../context/main/context'
 import {useNotificationsPermission} from '../../hooks/useNotificationPermission'
+import messaging from '@react-native-firebase/messaging'
 
 export type MainStackParamList = {
   Feed: undefined
@@ -26,7 +27,10 @@ export default () => {
 
   useEffect(() => {
     checkNotification().then(granted => {
-      console.log(granted)
+      granted &&
+        messaging()
+          .subscribeToTopic('all')
+          .then(() => console.info('Subscribed to topic!'))
     })
   }, [])
 
