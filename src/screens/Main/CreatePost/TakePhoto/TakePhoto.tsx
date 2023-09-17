@@ -14,13 +14,13 @@ import GPWithCameraPermission, {
 } from '../../../../components/GPWithCameraPermission/GPWithCameraPermission'
 import {Camera, useCameraDevices} from 'react-native-vision-camera'
 import {useIsForeground} from '../../../../hooks/useIsForeground'
-import GPFormContainer from '../../../../components/GPFormContainer/GPFormContainer'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import GPCameraButton from '../../../../components/GPCameraButton/GPCameraButton'
 import GPImagesLibraryIconButton from '../../../../components/GPImagesLibraryIconButton/GPImagesLibraryIconButton'
 import {useCreatePostContext} from '../../../../context/createPost/context'
 import Header from '../../../../components/GPHeader/GPHeader'
 import GPHeaderBackButton from '../../../../components/GPHeaderBackButton/GPHeaderBackButton'
+import GPHorizontalContainer from '../../../../components/GPHorizontalContainer/GPHorizontalContainer'
 
 const TakePhoteScreen = () => {
   const navigation = useNavigation<WriteDescriptionProps['navigation']>()
@@ -127,9 +127,9 @@ const TakePhoteScreen = () => {
             </View>
           </View>
         ) : (
-          <GPFormContainer>
+          <GPHorizontalContainer style={styles.noCameraContainer}>
             <>
-              <Text>{t.descriptionNoCamera}</Text>
+              <Text variant="bodyMedium">{t.descriptionNoCamera}</Text>
               <Button
                 mode="contained"
                 onPress={() => {
@@ -138,7 +138,7 @@ const TakePhoteScreen = () => {
                 {t.openLibrary}
               </Button>
             </>
-          </GPFormContainer>
+          </GPHorizontalContainer>
         )}
       </View>
     </>
@@ -168,6 +168,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   cameraButtonSideContainer: {width: 40},
+  noCameraContainer: {
+    flex: 1,
+    paddingVertical: 30,
+    justifyContent: 'space-between',
+  },
 })
 
 const t = {
