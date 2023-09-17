@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {StyleSheet, Text, View} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import {useAuthContext} from '../../../context/auth/context'
-import {Button, HelperText, TextInput} from 'react-native-paper'
+import {Button, HelperText, Text, TextInput} from 'react-native-paper'
 import {useNavigation} from '@react-navigation/native'
 import {RegisterProps} from '..'
 import GPFormContainer from '../../../components/GPFormContainer/GPFormContainer'
@@ -44,7 +44,7 @@ export default () => {
       <GPFormContainer>
         <GPHorizontalContainer>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Login</Text>
+            <Text variant="headlineLarge">Login</Text>
           </View>
 
           <View style={styles.emailInputContainer}>
@@ -100,10 +100,6 @@ export default () => {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 22,
-    fontWeight: '600',
-  },
   titleContainer: {alignItems: 'center', paddingTop: 60},
   emailInputContainer: {paddingTop: 20, paddingBottom: 20},
   mainButtonContainer: {paddingVertical: 20},

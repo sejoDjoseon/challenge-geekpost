@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {View} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import {
   Button,
   HelperText,
@@ -14,6 +14,7 @@ import {useAuthContext} from '../../../context/auth/context'
 import {validateEmail, validatePassword} from '../../../utils/validators'
 import GPFormContainer from '../../../components/GPFormContainer/GPFormContainer'
 import GPSafeArea from '../../../components/GPSafeArea/GPSafeArea'
+import GPHorizontalContainer from '../../../components/GPHorizontalContainer/GPHorizontalContainer'
 
 export default () => {
   const navigation = useNavigation<LoginProps['navigation']>()
@@ -60,13 +61,13 @@ export default () => {
   return (
     <GPSafeArea>
       <GPFormContainer>
-        <View style={{paddingHorizontal: 20}}>
-          <View style={{alignItems: 'center', paddingTop: 20}}>
+        <GPHorizontalContainer>
+          <View style={styles.titleContainer}>
             <Text variant="headlineLarge">Register</Text>
           </View>
 
-          <View style={{paddingTop: 10}}>
-            <View style={{paddingBottom: 30}}>
+          <View style={styles.inputsGroup}>
+            <View style={styles.inputNoHelperContainer}>
               <Text>Nombre</Text>
               <TextInput
                 mode="outlined"
@@ -76,7 +77,7 @@ export default () => {
                 }}
               />
             </View>
-            <View style={{paddingBottom: 30}}>
+            <View style={styles.inputNoHelperContainer}>
               <Text>Apellidos</Text>
               <TextInput
                 mode="outlined"
@@ -119,12 +120,7 @@ export default () => {
             </View>
           </View>
 
-          <View
-            style={{
-              paddingVertical: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
+          <View style={styles.termsAndConditionsContainer}>
             <RadioButton.Android
               value=""
               status={form.acceptTermsConditions ? 'checked' : 'unchecked'}
@@ -135,18 +131,14 @@ export default () => {
                 })
               }}
             />
-            <View
-              style={{
-                marginHorizontal: 10,
-                flexShrink: 1,
-              }}>
+            <View style={styles.termsAndConditionsDescription}>
               <Text>
                 Acepto los Términos y condiciones y la Política de privacidad
               </Text>
             </View>
           </View>
 
-          <View style={{paddingVertical: 10}}>
+          <View style={styles.mainButtonContainer}>
             <Button
               mode="contained"
               disabled={!valid}
@@ -158,13 +150,30 @@ export default () => {
             </Button>
           </View>
 
-          <View style={{paddingTop: 10, paddingBottom: 30}}>
+          <View style={styles.altButtonContainer}>
             <Button onPress={() => navigation.navigate('Login')}>
               Ya tienes una cuenta? Iniciar sesion
             </Button>
           </View>
-        </View>
+        </GPHorizontalContainer>
       </GPFormContainer>
     </GPSafeArea>
   )
 }
+
+const styles = StyleSheet.create({
+  titleContainer: {alignItems: 'center', paddingTop: 20},
+  inputsGroup: {paddingTop: 10},
+  inputNoHelperContainer: {paddingBottom: 30},
+  termsAndConditionsContainer: {
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  termsAndConditionsDescription: {
+    marginHorizontal: 10,
+    flexShrink: 1,
+  },
+  mainButtonContainer: {paddingVertical: 10},
+  altButtonContainer: {paddingTop: 10, paddingBottom: 30},
+})
